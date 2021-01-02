@@ -1,49 +1,51 @@
 
 /**
- * Objectr for Easier Comminucation between one or multiple Python process's.
+ * Object for Easier Comminucation between one or multiple Python process's.
  */
-exports.pyProcess = function () {
+class NodePy {
 
-    let ev = require('events');
-    this.eventListener = new ev.EventEmitter();
-     // Main Defines 
-    this.spawn = require("child_process").spawn;
-        
-     // used for processes
-    this.options =  {
-        scripts: [],
-        args: [],
+    constructor () {
+        let ev = require('events');
+        this.eventListener = new ev.EventEmitter();
+         // Main Defines 
+        this.spawn = require("child_process").spawn;
+            
+         // used for processes
+        this.options =  {
+            scripts: [],
+            args: [],
+        }
+    
+        const onError = function (e) { 
+            return e;
+         }
+     
+        const onData = function (d) { 
+            return d.toString();
+        }
+     
+        const onClose = function (d) { 
+            return d.toString();
+        }
+    
+        const onStart = function (p) {
+            return p;
+        };
+    
+        this.eventListener.on("start", onStart);
+        this.eventListener.on('error', onError);
+        this.eventListener.on('data', onData);
+        this.eventListener.on('close', onClose);
+    
+        this.listen = this.eventListener;
     }
-
-    const onError = function (e) { 
-        return e;
-     }
- 
-    const onData = function (d) { 
-        return d.toString();
-    }
- 
-    const onClose = function (d) { 
-        return d.toString();
-    }
-
-    const onStart = function (p) {
-        return p;
-    };
-
-    this.eventListener.on("start", onStart);
-    this.eventListener.on('error', onError);
-    this.eventListener.on('data', onData);
-    this.eventListener.on('close', onClose);
-
-    this.listen = this.eventListener;
     
     /**
      * Set the options for each python process
      * @param {*} scripts Array containing strings to each python process.
      * @param {*} args Aray containing args passed to each python process.
      */
-    configure = function (scripts = Array, args = Array) {
+    configure (scripts = Array, args = Array) {
         this.options.scripts = scripts;
         this.options.args = args;
     }
@@ -51,7 +53,7 @@ exports.pyProcess = function () {
     /**
      * Clear the events and clear the options. This will disable all events
      */
-    close = function () {
+    close () {
         this.eventListener.removeAllListeners();
         this.options = {scripts: [], args: []};
     }
@@ -61,7 +63,7 @@ exports.pyProcess = function () {
      *@param scripts Array of type string that contains the script location for the python process.
      *@param args Array containing args for the python script to use as data. If multiple scripts are selected then each arg must be an array of args for the certaion script.
      */
-    start = function () {
+    start () {
         
         this.pyProcess = this.spawn('python',[this.options.scripts, this.options.args]);
         this.pyProcess.stdout.on('data', (data) => {
@@ -78,8 +80,12 @@ exports.pyProcess = function () {
        
     }
 
-    yeet = function () {
+    yeet () {
         console.log('yeet')
     }
 
 }
+
+
+
+module.exports = {Process: NodePy};

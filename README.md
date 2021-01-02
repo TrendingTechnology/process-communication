@@ -1,4 +1,4 @@
-### How It Should work.
+### A simpler Python & Nodejs communication module.
 
 ```javascript
 let pyPackage = require("python-script-helper");
