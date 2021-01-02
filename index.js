@@ -11,13 +11,10 @@ class NodePy {
         this.spawn = require("child_process").spawn;
             
          // used for processes
-        this.options =  {
-            scripts: [],
-            args: [],
-        }
+        this.options =  []
     
         const onError = function (e) { 
-            return e;
+            return e
          }
      
         const onData = function (d) { 
@@ -42,12 +39,16 @@ class NodePy {
     
     /**
      * Set the options for each python process
-     * @param {*} scripts Array containing strings to each python process.
+     * @param {*} script The path to the python script
      * @param {*} args Aray containing args passed to each python process.
      */
-    configure (scripts = Array, args = Array) {
-        this.options.scripts = scripts;
-        this.options.args = args;
+    configure (script, args) {
+        this.options = [];
+        this.options[0] = script;
+
+        args.forEach(arg => {
+           this.options.push(arg);
+        })
     }
 
     /**
@@ -55,7 +56,7 @@ class NodePy {
      */
     close () {
         this.eventListener.removeAllListeners();
-        this.options = {scripts: [], args: []};
+        this.options = [];
     }
 
     /**
@@ -65,11 +66,11 @@ class NodePy {
      */
     start () {
         
-        this.pyProcess = this.spawn('python',[this.options.scripts, this.options.args]);
+        this.pyProcess = this.spawn('python', this.options);
         this.pyProcess.stdout.on('data', (data) => {
             this.eventListener.emit("data", data);
         });
-    
+
         this.pyProcess.stdout.on("close", (data) => {
             this.eventListener.emit("close", data);
         });
@@ -78,10 +79,6 @@ class NodePy {
             this.eventListener.emit("error", error);
         });
        
-    }
-
-    yeet () {
-        console.log('yeet')
     }
 
 }
