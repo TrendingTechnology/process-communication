@@ -1,7 +1,7 @@
 {
   "name": "node-python-communication",
-  "version": "1.0.2",
-  "description": "Easier comminication between python and nodejs processes.",
+  "version": "1.0.4",
+  "description": "Package for communicating with python scripts with nodejs and electron.",
   "main": "index.js",
   "scripts": {
     "start": "nodemon test.js",
