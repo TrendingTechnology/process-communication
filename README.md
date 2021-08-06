@@ -1,4 +1,7 @@
 ### A Simpler way to run Python code inside Node.
+Run python scripts and pass data between multiple python and node processes using this npm module. process-communication has a event based architecture for interacting with python data and errors inside nodejs.
+
+Currently I have plans to create a pip module for easier communication inside python so you dont have to directly work with the stdout.flush functions.
 
 ```javascript
 let PythonController = require("node-python-communication").Process;
