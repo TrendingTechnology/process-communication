@@ -1,4 +1,4 @@
-### A simpler Python & Nodejs communication module.
+### A Simpler way to run Python code inside Node.
 
 ```javascript
 let PythonController = require("node-python-communication").Process;
